@@ -23,5 +23,5 @@ const discussionSchema = new mongoose.Schema({
   },
 });
 
-const Discussion = model("Discussion", discussionSchema);
+const Discussion = mongoose.model("Discussion", discussionSchema);
 module.exports = Discussion;
