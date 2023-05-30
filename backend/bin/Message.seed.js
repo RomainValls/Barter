@@ -4,6 +4,7 @@ const Message = require("../models/Message.model");
 
 const message = {
   content: "Wesh ça va ou quoi, je suis un message mon gars !!",
+  sender: "6475ee916536be87920540a5",
 };
 
 async function seed() {
