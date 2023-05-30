@@ -33,9 +33,9 @@ const userSchema = new Schema(
       default:
         "https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-150x150.jpg",
     },
-    skills: { type: Schema.Types.ObjectId, ref: "Skills" },
+    skills: { type: Schema.Types.ObjectId, ref: "Skills", required: true },
     availability: { type: Schema.Types.ObjectId, ref: "Availability" },
-    rating: [ratingSchema],
+    rating: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     wallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
   },
   {
