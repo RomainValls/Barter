@@ -37,7 +37,8 @@ router.post("/", async (req, res, next) => {
       rating,
       wallet,
     } = req.body;
-    const createdUser = await User.create(
+
+    const createdUser = await User.create({
       email,
       password,
       name,
@@ -47,8 +48,9 @@ router.post("/", async (req, res, next) => {
       skills,
       availability,
       rating,
-      wallet
-    );
+      wallet,
+    });
+
     console.log("this is the created user", createdUser);
     res.json(createdUser);
   } catch (error) {

@@ -4,8 +4,8 @@ const Service = require("../models/Service.model");
 
 const service = {
   name: "Garder de chien",
-  provider: "6475ee5278a6598ce89850ae",
-  skill: "6475ee5f148f4a4347980304",
+  provider: "6475ee916536be87920540a5",
+  skill: "6475ee97a255725bb3b6c161",
 };
 
 async function seed() {
