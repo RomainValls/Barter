@@ -18,6 +18,25 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Name is required."],
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    location: {
+      type: String,
+      required: true,
+    },
+    picture: {
+      type: String,
+      default:
+        "https://www.personality-insights.com/wp-content/uploads/2017/12/default-profile-pic-150x150.jpg",
+    },
+    skills: { type: Schema.Types.ObjectId, ref: "Skills", required: true },
+    availability: { type: Schema.Types.ObjectId, ref: "Availability" },
+    rating: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
+    wallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
