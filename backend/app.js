@@ -22,17 +22,10 @@ app.use("/wallet", require("./routes/wallet.routes"));
 app.use("/skills", require("./routes/skills.routes"));
 app.use("/service", require("./routes/service.routes"));
 app.use("/request", require("./routes/request.routes"));
-
-app.use("/user", require("./routes/user.routes"));
-
 app.use("/availability", require("./routes/availability.routes"));
-
 app.use("/category", require("./routes/category.routes"));
-
 app.use("/discussion", require("./routes/discussion.routes"));
-
 app.use("/message", require("./routes/message.routes"));
-
 app.use("/rating", require("./routes/rating.routes"));
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes

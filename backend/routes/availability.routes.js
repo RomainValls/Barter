@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Availability = require("./../models/Availability.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     const allAvailabilities = await Availability.find();
     res.json(allAvailabilities);
@@ -12,7 +13,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const oneAvaibility = await Availability.findById(id);
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthenticated, async (req, res, next) => {
   try {
     const { available, hoursOfDay } = req.body;
     const createdAvailability = await Availability.create({
@@ -36,7 +37,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const { available, hoursOfDay } = req.body;
   try {
@@ -56,7 +57,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedAvailability = await Availability.findByIdAndDelete(id);

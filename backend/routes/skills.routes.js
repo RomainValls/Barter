@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Skills = require("../models/Skills.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     const allSkills = await Skills.find();
     res.json(allSkills);
@@ -11,7 +12,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const oneSkill = await Skills.findById(id);
@@ -21,7 +22,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthenticated, async (req, res, next) => {
   try {
     const { name } = req.body;
     const createdSkill = await Skills.create({ name });
@@ -32,7 +33,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const { name } = req.body;
   try {
@@ -49,7 +50,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedSkill = await Skills.findByIdAndDelete(id);

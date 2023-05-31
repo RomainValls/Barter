@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Rating = require("./../models/Rating.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     const allRatings = await Rating.find();
     res.json(allRatings);
@@ -12,7 +13,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const oneRating = await Rating.findById(id);
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthenticated, async (req, res, next) => {
   try {
     const { requester, provider, rating } = req.body;
     const createdRating = await Rating.create({
@@ -37,7 +38,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const { requester, provider, rating } = req.body;
   try {
@@ -53,7 +54,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedRating = await Rating.findByIdAndDelete(id);
