@@ -1,8 +1,9 @@
-const mongoose = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const skillsSchema = new mongoose.Schema({
+const skillsSchema = new Schema({
   name: { type: String, required: true },
+  serviceCategory: { type: String, required: true },
 });
 
-const Skills = mongoose.model("Skills", skillsSchema);
+const Skills = model("Skills", skillsSchema);
 module.exports = Skills;

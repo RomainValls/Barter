@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("./../models/User.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", isAuthenticated, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const allUsers = await User.find();
     res.json(allUsers);
@@ -37,7 +37,7 @@ router.patch("/:id", isAuthenticated, async (req, res, next) => {
     wallet,
   } = req.body;
   try {
-    const updatedUser = await User.findByIdAndUpdate(
+    const updatedUser = await User.findByIdAndUpdate(id, {
       email,
       password,
       name,
@@ -47,8 +47,8 @@ router.patch("/:id", isAuthenticated, async (req, res, next) => {
       skills,
       availability,
       rating,
-      wallet
-    );
+      wallet,
+    });
     res.json(updatedUser);
   } catch (error) {
     next(error);

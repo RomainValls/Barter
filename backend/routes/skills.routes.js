@@ -3,7 +3,7 @@ const router = express.Router();
 const Skills = require("../models/Skills.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", isAuthenticated, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const allSkills = await Skills.find();
     res.json(allSkills);
