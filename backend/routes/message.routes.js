@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Message = require("./../models/Message.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     const allMessages = await Message.find();
     res.json(allMessages);
@@ -12,7 +13,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const oneMessage = await Message.findById(id);
@@ -22,7 +23,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthenticated, async (req, res, next) => {
   try {
     const { content, sender } = req.body;
     const createdMessage = await Message.create({
@@ -36,7 +37,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const { content, sender } = req.body;
   try {
@@ -52,7 +53,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedMessage = await Message.findByIdAndDelete(id);

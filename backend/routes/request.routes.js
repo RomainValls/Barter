@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const Request = require("../models/Request.model");
+const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", async (req, res, next) => {
+router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     const allRequest = await Request.find();
     res.json(allRequest);
@@ -11,7 +12,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const oneRequest = await Request.findById(id);
@@ -21,7 +22,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", isAuthenticated, async (req, res, next) => {
   try {
     const { name, provider, requester, bbAmount, firstMessage, acceptButton } =
       req.body;
@@ -40,7 +41,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   const { name, provider, requester, bbAmount, firstMessage, acceptButton } =
     req.body;
@@ -63,7 +64,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedRequest = await Request.findByIdAndDelete(id);
