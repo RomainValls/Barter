@@ -107,7 +107,7 @@ router.post("/login", async (req, res, next) => {
     const payload = { name: foundUser.name, _id: foundUser._id };
     const token = jwt.sign(payload, process.env.TOKEN_SECRET, {
       algorithm: "HS256",
-      expiresIn: "6h",
+      expiresIn: "30d",
     });
     res.json({ token: token });
   } catch (error) {

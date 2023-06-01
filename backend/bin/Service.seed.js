@@ -4,7 +4,7 @@ const Service = require("../models/Service.model");
 
 const service = {
   name: "Garder de chien",
-  provider: "6475ee916536be87920540a5",
+  provider: "64789981dc1754a3ac3c10a3",
   requester: "6475ee916536be87920540a7",
   skill: "6475ee97a255725bb3b6c161",
 };

@@ -4,7 +4,7 @@ const Wallet = require("../models/Wallet.model");
 
 const wallet = {
   barterBucks: 800,
-  user: "6475ee916536be87920540a5",
+  user: "64789981dc1754a3ac3c10a3",
 };
 
 async function seed() {
