@@ -22,7 +22,6 @@ app.use("/wallet", require("./routes/wallet.routes"));
 app.use("/skills", require("./routes/skills.routes"));
 app.use("/service", require("./routes/service.routes"));
 app.use("/request", require("./routes/request.routes"));
-app.use("/availability", require("./routes/availability.routes"));
 app.use("/category", require("./routes/category.routes"));
 app.use("/discussion", require("./routes/discussion.routes"));
 app.use("/message", require("./routes/message.routes"));

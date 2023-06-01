@@ -40,7 +40,7 @@ const userSchema = new Schema(
         required: [true, "You need to have at least one skill."],
       },
     ],
-    availability: { type: Schema.Types.ObjectId, ref: "Availability" },
+    availability: { type: Boolean },
     rating: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
     wallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
   },
