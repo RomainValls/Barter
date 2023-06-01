@@ -3,7 +3,7 @@ const router = express.Router();
 const Service = require("../models/Service.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
 
-router.get("/", isAuthenticated, async (req, res, next) => {
+router.get("/", async (req, res, next) => {
   try {
     const allService = await Service.find();
     res.json(allService);
@@ -12,17 +12,17 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.get("/:id", isAuthenticated, async (req, res, next) => {
+router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const oneSkill = await Service.findById(id);
-    res.json(oneSkill);
+    const oneService = await Service.findById(id);
+    res.json(oneService);
   } catch (error) {
     next(error);
   }
 });
 
-router.post("/", isAuthenticated, async (req, res, next) => {
+router.post("/", async (req, res, next) => {
   try {
     const { name, provider, skill, image } = req.body;
     const createdSkill = await Service.create({ name, provider, skill, image });
@@ -33,7 +33,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.patch("/:id", isAuthenticated, async (req, res, next) => {
+router.patch("/:id", async (req, res, next) => {
   const { id } = req.params;
   const { name, provider, skill, image } = req.body;
   try {
@@ -53,7 +53,7 @@ router.patch("/:id", isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.delete("/:id", isAuthenticated, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedSkill = await Service.findByIdAndDelete(id);
