@@ -9,6 +9,7 @@ const jwt = require("jsonwebtoken");
 
 // Require the User model in order to interact with the database
 const User = require("../models/User.model");
+const Wallet = require("./../models/Wallet.model");
 
 // Require necessary (isAuthenticated) middleware in order to control access to specific routes
 const isAuthenticated = require("../middleware/isAuthenticated");
@@ -80,6 +81,7 @@ router.post("/signup", async (req, res, next) => {
       rating,
       wallet,
     });
+    await Wallet.create({ user: createdUser._id });
 
     res.status(201).json({ user: createdUser });
   } catch (error) {

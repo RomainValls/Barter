@@ -15,8 +15,14 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
+  const userId = req.payload._id;
   try {
-    const oneDiscussion = await Discussion.findById(id);
+    const oneDiscussion = await Discussion.findOne({
+      _id: id,
+      $or: [{ requester: userId }, { provider: userId }],
+    })
+      .populate("message")
+      .sort({ createdAt: -1 });
     res.status(200).json(oneDiscussion);
   } catch (error) {
     next(error);

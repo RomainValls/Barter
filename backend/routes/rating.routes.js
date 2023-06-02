@@ -25,10 +25,10 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
 
 router.post("/", isAuthenticated, async (req, res, next) => {
   try {
-    const { requester, provider, rating } = req.body;
+    const { rated, rating } = req.body;
     const createdRating = await Rating.create({
-      requester,
-      provider,
+      rator: req.payload._id,
+      rated,
       rating,
     });
     res.status(201).json(createdRating);
@@ -40,10 +40,10 @@ router.post("/", isAuthenticated, async (req, res, next) => {
 
 router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
-  const { requester, provider, rating } = req.body;
+  const { rating } = req.body;
   try {
-    const updatedRating = await Rating.findByIdAndUpdate(
-      id,
+    const updatedRating = await Rating.findOneAndUpdate(
+      { _id: id, rator: req.payload._id },
       { requester, provider, rating },
       { new: true }
     );
@@ -57,7 +57,10 @@ router.patch("/:id", isAuthenticated, async (req, res, next) => {
 router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
-    const deletedRating = await Rating.findByIdAndDelete(id);
+    const deletedRating = await Rating.findOneAndDelete({
+      _id: id,
+      rator: req.payload._id,
+    });
     res.json({ message: "rating deleted" });
   } catch (error) {
     next(error);
