@@ -22,14 +22,25 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
   }
 });
 
+router.get("/me", isAuthenticated, async (req, res, next) => {
+  const { _id } = req.payload;
+  try {
+    const allMyRequests = await Request.find({
+      $or: [{ requester: _id }, { provider: _id }],
+    });
+    res.json(allMyRequests);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/", isAuthenticated, async (req, res, next) => {
   try {
-    const { name, provider, requester, bbAmount, firstMessage, acceptButton } =
-      req.body;
+    const { name, provider, bbAmount, firstMessage, acceptButton } = req.body;
     const createdRequest = await Request.create({
       name,
       provider,
-      requester,
+      requester: req.payload._id,
       bbAmount,
       firstMessage,
       acceptButton,

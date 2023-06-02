@@ -5,7 +5,7 @@ const productSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
   provider: { type: Schema.Types.ObjectId, ref: "User", required: true },
   bbAmount: { type: Number, required: true },
-  addToCart: { type: Boolean, required: true },
+  // addToCart: { type: Boolean, required: true },
 });
 
 const Product = model("Product", productSchema);

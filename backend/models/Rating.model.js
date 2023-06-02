@@ -1,11 +1,11 @@
 const mongoose = require("mongoose");
 
 const ratingSchema = new mongoose.Schema({
-  requester: {
+  rated: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  provider: {
+  rator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },

@@ -41,8 +41,8 @@ const userSchema = new Schema(
       },
     ],
     availability: { type: Boolean },
-    rating: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
-    wallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
+    // rating: [{ type: Schema.Types.ObjectId, ref: "Rating" }],
+    // wallet: { type: Schema.Types.ObjectId, ref: "Wallet" },
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`

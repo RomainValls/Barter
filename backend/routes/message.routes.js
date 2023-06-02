@@ -25,10 +25,10 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
 
 router.post("/", isAuthenticated, async (req, res, next) => {
   try {
-    const { content, sender } = req.body;
+    const { content } = req.body;
     const createdMessage = await Message.create({
       content,
-      sender,
+      sender: req.payload._id,
     });
     res.status(201).json(createdMessage);
   } catch (error) {

@@ -4,19 +4,19 @@ const skillsSchema = new Schema({
   name: {
     type: String,
     required: true,
-    serviceCategory: {
-      type: String,
-      required: true,
-      enum: [
-        "Personal",
-        "Professional",
-        "Health and Wellness",
-        "Educational",
-        "Creative",
-        "Home",
-        "Transportation",
-      ],
-    },
+  },
+  serviceCategory: {
+    type: String,
+    required: true,
+    enum: [
+      "Personal",
+      "Professional",
+      "Health and Wellness",
+      "Educational",
+      "Creative",
+      "Home",
+      "Transportation",
+    ],
   },
 });
 

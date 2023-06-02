@@ -16,38 +16,29 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
     const oneUser = await User.findById(id);
-    res.json(oneUser);
+    const userService = await Service.find({
+      $or: [{ provider: id }, { requester: id }],
+    });
+
+    res.json({ oneUser, userService });
   } catch (error) {
     next(error);
   }
 });
 
-router.patch("/:id", async (req, res, next) => {
-  const { id } = req.params;
-  const {
-    email,
-    password,
-    name,
-    phone,
-    location,
-    picture,
-    skills,
-    availability,
-    rating,
-    wallet,
-  } = req.body;
+router.patch("/", isAuthenticated, async (req, res, next) => {
+  const { _id } = req.payload;
+  const { email, name, phone, location, picture, skills, availability } =
+    req.body;
   try {
-    const updatedUser = await User.findByIdAndUpdate(id, {
+    const updatedUser = await User.findByIdAndUpdate(_id, {
       email,
-      password,
       name,
       phone,
       location,
       picture,
       skills,
       availability,
-      rating,
-      wallet,
     });
     res.json(updatedUser);
   } catch (error) {
@@ -55,10 +46,10 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
-  const { id } = req.params;
+router.delete("/", isAuthenticated, async (req, res, next) => {
+  const { _id } = req.payload;
   try {
-    const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(_id);
     res.json(deletedUser);
   } catch (error) {}
 });

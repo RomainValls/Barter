@@ -4,6 +4,8 @@ const walletSchema = new mongoose.Schema({
   barterBucks: {
     type: Number,
     required: true,
+    min: 0,
+    default: 100,
   },
   user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 });
