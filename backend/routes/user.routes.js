@@ -55,7 +55,7 @@ router.patch("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", isAuthenticated, async (req, res, next) => {
+router.delete("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
     const deletedUser = await User.findByIdAndDelete(id);
