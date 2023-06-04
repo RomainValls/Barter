@@ -47,12 +47,41 @@ router.patch("/", isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.delete("/", isAuthenticated, async (req, res, next) => {
+router.patch("/skills", isAuthenticated, async (req, res, next) => {
   const { _id } = req.payload;
+  const { skillId } = req.body;
+
   try {
-    const deletedUser = await User.findByIdAndDelete(_id);
-    res.json(deletedUser);
-  } catch (error) {}
+    // Find the user by ID
+    const user = await User.findById(_id);
+
+    // Add the skillId to the user's skills array
+    user.skills.push(skillId);
+
+    // Save the updated user
+    const updatedUser = await user.save();
+
+    res.json(updatedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.patch("/removeSkills", isAuthenticated, async (req, res, next) => {
+  const { _id } = req.payload;
+  const { skillId } = req.body;
+
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      _id,
+      { $pull: { skills: skillId } },
+      { new: true }
+    );
+    res.json(updatedUser);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Failed to delete skill from user" });
+  }
 });
 
 module.exports = router;

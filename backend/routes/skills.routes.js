@@ -12,6 +12,15 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.patch("/user-skills", async (req, res, next) => {
+  try {
+    const userSkills = await Skills.findOne({ user: req.payload._id });
+    res.json(userSkills);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
