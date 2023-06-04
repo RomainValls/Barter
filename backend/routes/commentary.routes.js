@@ -1,12 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const Rating = require("./../models/Rating.model");
+const Commentary = require("../models/Commentary.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
 
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
-    const allRatings = await Rating.find();
-    res.json(allRatings);
+    const allCommentaries = await Commentary.find();
+    res.json(allCommentaries);
   } catch (error) {
     console.log(error.status.message);
     next(error);
@@ -16,8 +16,8 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
-    const oneRating = await Rating.findById(id);
-    res.status(200).json(oneRating);
+    const oneCommentary = await Commentary.findById(id);
+    res.status(200).json(oneCommentary);
   } catch (error) {
     next(error);
   }
@@ -25,29 +25,29 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
 
 router.post("/", isAuthenticated, async (req, res, next) => {
   try {
-    const { rated, rating } = req.body;
-    const createdRating = await Rating.create({
-      rator: req.payload._id,
-      rated,
-      rating,
+    const { commented, commentary } = req.body;
+    const createdCommentary = await Commentary.create({
+      commentator: req.payload._id,
+      commented,
+      commentary,
     });
-    res.status(201).json(createdRating);
+    res.status(201).json(createdCommentary);
   } catch (error) {
-    console.log(error.status.message);
+    console.log(error.status);
     next(error);
   }
 });
 
 router.patch("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
-  const { rating } = req.body;
+  const { commentary } = req.body;
   try {
-    const updatedRating = await Rating.findOneAndUpdate(
-      { _id: id, rator: req.payload._id },
-      { requester, provider, rating },
+    const updatedCommentary = await Commentary.findOneAndUpdate(
+      { _id: id, commentator: req.payload._id },
+      { commentator, commented, commentary },
       { new: true }
     );
-    res.status(200).json(updatedRating);
+    res.status(200).json(updatedCommentary);
   } catch (error) {
     console.log(error.status.message);
     next(error);
@@ -57,11 +57,11 @@ router.patch("/:id", isAuthenticated, async (req, res, next) => {
 router.delete("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
-    const deletedRating = await Rating.findOneAndDelete({
+    const deletedCommentary = await Commentary.findOneAndDelete({
       _id: id,
-      rator: req.payload._id,
+      commentator: req.payload._id,
     });
-    res.json({ message: "rating deleted" });
+    res.json({ message: "commentary deleted" });
   } catch (error) {
     next(error);
   }
