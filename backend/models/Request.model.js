@@ -5,7 +5,7 @@ const requestSchema = new Schema({
   provider: { type: Schema.Types.ObjectId, ref: "User", required: true },
   requester: { type: Schema.Types.ObjectId, ref: "User", required: true },
   bbAmount: { type: Number, required: true },
-  firstMessage: { type: String },
+  messages: { type: String },
   // acceptButton: { type: Boolean, required: true, default: false },
 });
 
