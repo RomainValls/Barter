@@ -67,7 +67,6 @@ router.patch("/addSkills", isAuthenticated, async (req, res, next) => {
 router.patch("/removeSkills", isAuthenticated, async (req, res, next) => {
   const { _id } = req.payload;
   const { skillId } = req.body;
-
   try {
     const updatedUser = await User.findByIdAndUpdate(
       _id,

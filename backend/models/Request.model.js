@@ -8,6 +8,7 @@ const requestSchema = new Schema({
   category: { type: String, required: true },
   firstMessage: { type: String },
   acceptButton: { type: Boolean, required: true, default: false },
+  messages: { type: String },
 });
 
 const Request = model("Request", requestSchema);
