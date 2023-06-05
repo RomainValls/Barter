@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Request = require("../models/Request.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
+const { ObjectId } = require("mongoose").Types;
 
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
@@ -12,8 +13,23 @@ router.get("/", isAuthenticated, async (req, res, next) => {
   }
 });
 
+router.get("/me", isAuthenticated, async (req, res, next) => {
+  console.log("req payload", req.payload);
+  const { _id } = req.payload;
+
+  try {
+    const allMyRequests = await Request.find({
+      provider: _id,
+    });
+    res.json(allMyRequests);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
+
   try {
     const oneRequest = await Request.findById(id);
     res.json(oneRequest);
@@ -22,26 +38,16 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
   }
 });
 
-router.get("/me", isAuthenticated, async (req, res, next) => {
-  const { _id } = req.payload;
-  try {
-    const allMyRequests = await Request.find({
-      $or: [{ requester: _id }, { provider: _id }],
-    });
-    res.json(allMyRequests);
-  } catch (error) {
-    next(error);
-  }
-});
-
 router.post("/", isAuthenticated, async (req, res, next) => {
   try {
-    const { name, provider, bbAmount, firstMessage, acceptButton } = req.body;
+    const { name, provider, bbAmount, firstMessage, category, acceptButton } =
+      req.body;
     const createdRequest = await Request.create({
       name,
       provider,
       requester: req.payload._id,
       bbAmount,
+      category,
       firstMessage,
       acceptButton,
     });
