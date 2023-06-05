@@ -14,9 +14,7 @@ const discussionSchema = new mongoose.Schema(
     },
     message: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Message",
-        required: true,
+        type: String,
       },
     ],
     closeDiscussion: {
