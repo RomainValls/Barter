@@ -6,7 +6,7 @@ const requestSchema = new Schema({
   requester: { type: Schema.Types.ObjectId, ref: "User", required: true },
   bbAmount: { type: Number, required: true },
   firstMessage: { type: String },
-  acceptButton: { type: Boolean, required: true, default: false },
+  // acceptButton: { type: Boolean, required: true, default: false },
 });
 
 const Request = model("Request", requestSchema);
