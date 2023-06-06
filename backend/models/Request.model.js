@@ -7,7 +7,7 @@ const requestSchema = new Schema({
   bbAmount: { type: Number, required: true },
   category: { type: String, required: true },
   firstMessage: { type: String },
-  acceptButton: { type: Boolean, required: true, default: false },
+  acceptButton: { type: Boolean },
   messages: { type: String },
 });
 
