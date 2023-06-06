@@ -1,4 +1,5 @@
 const { model, Schema } = require("mongoose");
+const Message = require("./../models/Message.model");
 
 const requestSchema = new Schema({
   name: { type: String, required: true },
@@ -8,7 +9,9 @@ const requestSchema = new Schema({
   category: { type: String, required: true },
   firstMessage: { type: String },
   acceptButton: { type: Boolean },
+
   messages: { type: String },
+
 });
 
 const Request = model("Request", requestSchema);
