@@ -16,7 +16,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
-    const oneMessage = await Message.findById(id);
+    const oneMessage = await Message.find({ requestId: id });
     res.status(200).json(oneMessage);
   } catch (error) {
     next(error);
@@ -25,10 +25,12 @@ router.get("/:id", isAuthenticated, async (req, res, next) => {
 
 router.post("/", isAuthenticated, async (req, res, next) => {
   try {
-    const { content } = req.body;
+    const { content, receiver, requestId } = req.body;
     const createdMessage = await Message.create({
       content,
       sender: req.payload._id,
+      receiver,
+      requestId,
     });
     res.status(201).json(createdMessage);
   } catch (error) {

@@ -27,6 +27,20 @@ router.get("/me", isAuthenticated, async (req, res, next) => {
   }
 });
 
+router.get("/sentRequests", isAuthenticated, async (req, res, next) => {
+  console.log("req payload", req.payload);
+  const { _id } = req.payload;
+
+  try {
+    const allMyRequests = await Request.find({
+      requester: _id,
+    });
+    res.json(allMyRequests);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
 
