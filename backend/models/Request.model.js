@@ -9,7 +9,9 @@ const requestSchema = new Schema({
   category: { type: String, required: true },
   firstMessage: { type: String },
   acceptButton: { type: Boolean },
-  messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
+
+  messages: { type: String },
+
 });
 
 const Request = model("Request", requestSchema);

@@ -33,11 +33,11 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 //   }
 // });
 
-router.patch("/", isAuthenticated, async (req, res, next) => {
-  const { _id } = req.payload;
+router.patch("/:id", isAuthenticated, async (req, res, next) => {
+  const { id } = req.params;
   const { barterBucks } = req.body;
   try {
-    const wallet = await Wallet.findOne({ user: _id });
+    const wallet = await Wallet.findOne({ user: id });
     wallet.barterBucks += barterBucks;
     await wallet.save();
     // const updatedWallet = await Wallet.findByIdAndUpdate(
