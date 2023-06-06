@@ -8,10 +8,9 @@ const requestSchema = new Schema({
   bbAmount: { type: Number, required: true },
   category: { type: String, required: true },
   firstMessage: { type: String },
-  acceptButton: { type: Boolean },
+  acceptButton: { type: Boolean, default: false },
 
   messages: { type: String },
-
 });
 
 const Request = model("Request", requestSchema);
