@@ -4,10 +4,15 @@ const CurrentMission = require("./../models/CurrentMission.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
 
 router.get("/", isAuthenticated, async (req, res, next) => {
-  const userId = req.payload._id;
   try {
     const currentMission = await CurrentMission.find()
-      .populate("request")
+      .populate({
+        path: "request",
+        populate: {
+          path: "category",
+          select: "name",
+        },
+      })
       .sort({ createdAt: -1 });
     res.status(200).json(currentMission);
   } catch (error) {

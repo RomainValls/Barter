@@ -5,7 +5,9 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
-    const allCommentaries = await Commentary.find();
+    const allCommentaries = await Commentary.find()
+      .populate("commentator")
+      .sort({ createdAt: -1 });
     res.json(allCommentaries);
   } catch (error) {
     console.log(error.status.message);
@@ -59,7 +61,6 @@ router.delete("/:id", isAuthenticated, async (req, res, next) => {
   try {
     const deletedCommentary = await Commentary.findOneAndDelete({
       _id: id,
-      commentator: req.payload._id,
     });
     res.json({ message: "commentary deleted" });
   } catch (error) {
