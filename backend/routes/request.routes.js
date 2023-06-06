@@ -20,7 +20,7 @@ router.get("/me", isAuthenticated, async (req, res, next) => {
   try {
     const allMyRequests = await Request.find({
       provider: _id,
-    });
+    }).populate("requester provider");
     res.json(allMyRequests);
   } catch (error) {
     next(error);
