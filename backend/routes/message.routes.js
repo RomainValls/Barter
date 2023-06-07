@@ -5,7 +5,7 @@ const isAuthenticated = require("../middleware/isAuthenticated");
 
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
-    const allMessages = await Message.find();
+    const allMessages = await Message.find().populate("sender receiver");
     res.json(allMessages);
   } catch (error) {
     console.log(error.status.message);
@@ -16,7 +16,7 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 router.get("/:id", isAuthenticated, async (req, res, next) => {
   const { id } = req.params;
   try {
-    const oneMessage = await Message.find({ requestId: id });
+    const oneMessage = await Message.find({ requestId: id }).populate("sender");
     res.status(200).json(oneMessage);
   } catch (error) {
     next(error);
