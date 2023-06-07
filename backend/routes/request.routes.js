@@ -7,34 +7,6 @@ const nodemailer = require("nodemailer");
 const SENDMAIL = require("../config/mailer");
 const HTML_TEMPLATE = require("../config/mail-template");
 
-// Function to send notification email
-// async function sendNotificationEmail(userEmail) {
-//   // Create a transporter using SMTP details of GMX
-//   const transporter = nodemailer.createTransport({
-//     service: "gmx",
-//     auth: {
-//       user: "romain.valls@gmx.fr",
-//       pass: "Mperom1v!5904",
-//     },
-//   });
-
-//   // Prepare the email content
-//   const mailOptions = {
-//     from: "romain.valls@gmx.fr",
-//     to: userEmail,
-//     subject: "New request notification",
-//     text: "You have received a new request!",
-//   };
-
-//   try {
-//     // Send the email
-//     await transporter.sendMail(mailOptions);
-//     console.log("Notification email sent successfully.");
-//   } catch (error) {
-//     console.error("Error sending notification email:", error);
-//   }
-// }
-
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
     const allRequest = await Request.find();
