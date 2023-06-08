@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Request = require("../models/Request.model");
+const User = require("../models/User.model");
 const isAuthenticated = require("../middleware/isAuthenticated");
 const { ObjectId } = require("mongoose").Types;
 const nodemailer = require("nodemailer");
@@ -69,15 +70,24 @@ router.post("/", isAuthenticated, async (req, res, next) => {
       acceptButton,
     });
 
+    const findProvider = await User.findById(provider); // Assuming you're using Mongoose and the model is named User
+
+    if (!findProvider) {
+      // Handle the case when provider is not found
+      throw new Error("Provider not found");
+    }
+
+    console.log("THIS IS THE PROVIDER IN THE POST", provider);
     // const userEmail = req.payload.email; // Assuming you have the user's email stored in the payload
     // await sendNotificationEmail(userEmail);
-    const providerEmail = provider.email;
+    const providerEmail = findProvider.email;
 
-    const message = "Hi there, you were emailed through nodemailer";
+    const message =
+      "Hello there, you've been requested ! Visit https://barter-ironhack.netlify.app/ to check it out !";
     const options = {
-      from: "TESTING <romain.valls95@gmail.com>", // sender address
+      from: "Barter <romain.valls95@gmail.com>", // sender address
       to: providerEmail, // receiver email
-      subject: "Send email in Node.JS with Nodemailer using Gmail account", // Subject line
+      subject: "Someone needs you", // Subject line
       text: message,
       html: HTML_TEMPLATE(message),
     };
