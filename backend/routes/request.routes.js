@@ -40,9 +40,11 @@ router.get("/sentRequests", isAuthenticated, async (req, res, next) => {
   try {
     const allMyRequests = await Request.find({
       requester: _id,
+
     })
       .populate("requester provider")
       .sort({ createdAt: -1 });
+
     res.json(allMyRequests);
   } catch (error) {
     next(error);
