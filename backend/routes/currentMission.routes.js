@@ -8,12 +8,14 @@ router.get("/", isAuthenticated, async (req, res, next) => {
     const currentMission = await CurrentMission.find()
       .populate({
         path: "request",
-        populate: {
-          path: "category",
-          select: "name",
-        },
+        populate: [
+          { path: "category", select: "name" },
+          { path: "provider", select: "name" },
+          { path: "requester", select: "name" },
+        ],
       })
       .sort({ createdAt: -1 });
+
     res.status(200).json(currentMission);
   } catch (error) {
     next(error);
@@ -23,9 +25,14 @@ router.get("/", isAuthenticated, async (req, res, next) => {
 router.get("/:id", async (req, res, next) => {
   const { id } = req.params;
   try {
-    const oneCurrentMission = await CurrentMission.findById(id).populate(
-      "request"
-    );
+    const oneCurrentMission = await CurrentMission.findById(id).populate({
+      path: "request",
+      populate: [
+        { path: "category", select: "name" },
+        { path: "provider", select: "name" },
+        { path: "requester", select: "name" },
+      ],
+    });
     res.status(200).json(oneCurrentMission);
   } catch (error) {
     next(error);
