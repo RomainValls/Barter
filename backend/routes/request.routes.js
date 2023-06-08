@@ -37,7 +37,7 @@ router.get("/sentRequests", isAuthenticated, async (req, res, next) => {
   try {
     const allMyRequests = await Request.find({
       requester: _id,
-    });
+    }).populate("requester provider");
     res.json(allMyRequests);
   } catch (error) {
     next(error);
