@@ -9,7 +9,7 @@ const HTML_TEMPLATE = require("../config/mail-template");
 
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
-    const allRequest = await Request.find();
+    const allRequest = await Request.find().populate("provider");
     res.json(allRequest);
   } catch (error) {
     next(error);
@@ -72,6 +72,7 @@ router.post("/", isAuthenticated, async (req, res, next) => {
     // const userEmail = req.payload.email; // Assuming you have the user's email stored in the payload
     // await sendNotificationEmail(userEmail);
     const providerEmail = provider.email;
+
     const message = "Hi there, you were emailed through nodemailer";
     const options = {
       from: "TESTING <romain.valls95@gmail.com>", // sender address
