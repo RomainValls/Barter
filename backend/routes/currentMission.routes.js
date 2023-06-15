@@ -9,9 +9,9 @@ router.get("/", isAuthenticated, async (req, res, next) => {
       .populate({
         path: "request",
         populate: [
-          { path: "category", select: "name" },
-          { path: "provider", select: "name" },
-          { path: "requester", select: "name" },
+          { path: "category" },
+          { path: "provider" },
+          { path: "requester" },
         ],
       })
       .sort({ createdAt: -1 });
