@@ -27,7 +27,9 @@ app.use("/discussion", require("./routes/discussion.routes"));
 app.use("/message", require("./routes/message.routes"));
 app.use("/commentary", require("./routes/commentary.routes"));
 app.use("/current-mission", require("./routes/currentMission.routes"));
-// app.use("/modify-skills", require("./routes/"))
+app.use("/product", require("./routes/product.routes"));
+app.use("/cart", require("./routes/cart.routes"));
+app.use("/current-product", require("./routes/currentProduct.routes"));
 
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
