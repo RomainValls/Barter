@@ -10,6 +10,25 @@ require("./db");
 const express = require("express");
 
 const app = express();
+// WEBSOCKET.IO
+
+// const http = require("http");
+// const { Server } = require("socket.io");
+
+// const server = http.createServer(app);
+
+// const io = new Server(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     methods: ["GET", "POST"],
+//   },
+// });
+
+// server.listen(3001, () => {
+//   console.log("Server is RUNNING");
+// });
+
+// END OF WEBSOCKET IO
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);

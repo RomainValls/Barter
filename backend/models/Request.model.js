@@ -7,7 +7,7 @@ const requestSchema = new Schema(
     provider: { type: Schema.Types.ObjectId, ref: "User", required: true },
     requester: { type: Schema.Types.ObjectId, ref: "User", required: true },
     bbAmount: { type: Number, required: true },
-    category: { type: String, required: true },
+    category: { type: Schema.Types.ObjectId, ref: "Skills", required: true },
     firstMessage: { type: String },
     acceptButton: { type: Boolean, default: false },
 

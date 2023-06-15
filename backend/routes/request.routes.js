@@ -7,6 +7,67 @@ const { ObjectId } = require("mongoose").Types;
 const nodemailer = require("nodemailer");
 const SENDMAIL = require("../config/mailer");
 const HTML_TEMPLATE = require("../config/mail-template");
+// const { io, getUserSockets } = require("../socket");
+const { Server } = require("socket.io");
+
+const io = new Server({
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true,
+    transports: ["websocket", "polling"],
+  },
+});
+
+const userSockets = new Map();
+
+io.on("connection", (socket) => {
+  console.log("A client connected");
+  console.log("user sockets", socket);
+
+  // When a user connects, store their socket connection using their user ID
+  socket.on("storeUserSocket", (userId) => {
+    userSockets.set(userId.toString(), socket);
+    console.log(
+      `========= Socket connection stored for user: ${userId}`,
+      userSockets
+    );
+  });
+
+  // socket.on("notifToServer", (data) {
+  //   console.log("notif to server received by the server");
+  // })
+
+  // // Example: Handle a custom event from the client
+  // socket.on("customEvent", (data) => {
+  //   console.log("Received custom event:", data);
+  //   // Handle the received data and emit a response if needed
+  // });
+
+  // socket.on("notifRequest", () => {
+  //   // Get the user ID you're making the request to
+  //   const providerId = providerIdIo; // Replace "USER_ID" with the actual user ID
+
+  //   // Emit the "notification" event to the specific user
+  //   io.to(providerId.toString()).emit("notification", {
+  //     message: "Your notification message",
+  //   });
+  // });
+
+  socket.on("disconnect", () => {
+    // When a user disconnects, remove their socket connection from the data structure
+    const entry = Array.from(userSockets.entries()).find(
+      ([key, value]) => value === socket
+    );
+    if (entry) {
+      const userId = entry[0];
+      userSockets.delete(userId);
+      // console.log(`Socket connection removed for user: ${userId}`);
+    }
+    console.log("A client disconnected");
+  });
+});
 
 router.get("/", isAuthenticated, async (req, res, next) => {
   try {
@@ -40,7 +101,6 @@ router.get("/sentRequests", isAuthenticated, async (req, res, next) => {
   try {
     const allMyRequests = await Request.find({
       requester: _id,
-
     })
       .populate("requester provider")
       .sort({ createdAt: -1 });
@@ -87,6 +147,14 @@ router.post("/", isAuthenticated, async (req, res, next) => {
     // const userEmail = req.payload.email; // Assuming you have the user's email stored in the payload
     // await sendNotificationEmail(userEmail);
     const providerEmail = findProvider.email;
+    const providerId = findProvider._id;
+
+    if (userSockets.has(providerId.toString())) {
+      const providerSocket = userSockets.get(providerId.toString());
+      providerSocket.emit("notification", {
+        message: "Your notification message",
+      });
+    }
 
     const message =
       "Hello there, you've been requested ! Visit https://barter-ironhack.netlify.app/ to check it out !";
@@ -144,3 +212,4 @@ router.delete("/:id", isAuthenticated, async (req, res, next) => {
 });
 
 module.exports = router;
+module.exports.io = io;
